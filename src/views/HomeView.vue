@@ -27,7 +27,7 @@ export default {
     // }
   },
   created() {
-    this.fetchArticles(8)
+    this.fetchArticles(9)
     // this.latestArticle = this.articles
     // this.latestArticleData()
     // this.latestArticle = this.articles
@@ -40,7 +40,7 @@ export default {
   <section class="container">
     <div class="row">
       <div class="col-12">
-        <p>Top 5 article</p>
+        <p>Latest Articles</p>
         <div class="row">
           <!-- <div class="col-12">
             <CardLatest />
@@ -69,15 +69,44 @@ export default {
   <section class="container">
     <h1>Articles</h1>
     <div class="row">
-      <div class="col-3 col-md-4 bg-black d-none d-md-block">
+      <div class="col-3 col-md-4 bg-body-tertiary border-5 d-none d-md-block sidebar">
         <p>sidebar</p>
       </div>
       <div class="col">
         <section class="row g-4">
           <p>All Articles</p>
           <Card v-for="item in articles" :key="item.id" :article="item" />
+          <div class="d-flex justify-content-center">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </section>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.sidebar {
+  border-radius: 10px;
+}
+
+.page-item a {
+  color: #333;
+}
+</style>
