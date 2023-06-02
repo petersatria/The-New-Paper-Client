@@ -4,7 +4,8 @@ import axios from 'axios'
 export const useArticleStore = defineStore('article', {
   state: () => ({
     baseUrl: 'http://localhost:3000',
-    articles: []
+    articles: [],
+    article: {}
   }),
   getters: {
 
@@ -22,6 +23,18 @@ export const useArticleStore = defineStore('article', {
         this.articles = data.data.rows
       } catch (error) {
         console.log(error);
+      }
+    },
+    async fetchArticleById(id) {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + `/api/articles/${id}`
+        })
+        console.log(data.data, 'apa');
+        this.article = data.data
+      } catch (err) {
+        //route
+        console.log(err);
       }
     }
   },

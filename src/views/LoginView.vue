@@ -1,7 +1,24 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { mapActions, mapState } from 'pinia'
+import { useUserStore } from '../stores/user'
 
-export default {}
+export default {
+  data() {
+    return {
+      userData: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions(useUserStore, ['handleLogin', 'handleLogout']),
+    submitLoginHandler() {
+      this.handleLogin(this.userData)
+    }
+  }
+}
 </script>
 
 <template>
@@ -16,7 +33,7 @@ export default {}
             <div class="card border px-4 py-5">
               <h1 class="text-center display-1 fs-1 fw-medium">Login</h1>
               <p class="text-center fw-light">Get access to your account</p>
-              <form>
+              <form @submit.prevent="submitLoginHandler">
                 <div class="row d-flex justify-content-center">
                   <div class="mb-3 col-8">
                     <label for="email" class="form-label">Email address</label>
@@ -27,6 +44,7 @@ export default {}
                       name="email"
                       aria-describedby="emailHelp"
                       autocomplete="email"
+                      v-model="userData.email"
                     />
                   </div>
                   <div class="mb-3 col-8">
@@ -36,10 +54,11 @@ export default {}
                       class="form-control"
                       id="password-login"
                       autocomplete="off"
+                      v-model="userData.password"
                     />
                   </div>
                   <div class="col-8 d-flex flex-column align-items-center pt-3">
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
                     <p class="mb-0">or Sign in with</p>
                     <p>
                       <RouterLink href="/register" :to="'register'">Create an account</RouterLink>

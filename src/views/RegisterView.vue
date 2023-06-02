@@ -1,7 +1,24 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { mapActions, mapState } from 'pinia'
+import { useUserStore } from '../stores/user'
 
-export default {}
+export default {
+  data() {
+    return {
+      userData: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions(useUserStore, ['handleRegister']),
+    submitRegisterHandler() {
+      this.handleRegister(this.userData)
+    }
+  }
+}
 </script>
 
 <template>
@@ -16,7 +33,7 @@ export default {}
             <div class="card border px-4 py-5">
               <h1 class="text-center display-1 fs-1 fw-medium">Register</h1>
               <p class="text-center fw-light">Create new account for you</p>
-              <form>
+              <form @submit.prevent="submitRegisterHandler">
                 <div class="row d-flex justify-content-center">
                   <div class="mb-3 col-8">
                     <label for="email" class="form-label">Email address</label>
@@ -27,6 +44,7 @@ export default {}
                       name="email"
                       aria-describedby="emailHelp"
                       autocomplete="email"
+                      v-model="userData.email"
                     />
                   </div>
                   <div class="mb-3 col-8">
@@ -36,6 +54,7 @@ export default {}
                       class="form-control"
                       id="password-login"
                       autocomplete="off"
+                      v-model="userData.password"
                     />
                   </div>
                   <div class="col-8 d-flex flex-column align-items-center pt-3">
