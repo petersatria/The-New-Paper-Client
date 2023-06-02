@@ -58,10 +58,7 @@ export default {
                 <RouterLink
                   class="nav-link"
                   :to="'/login'"
-                  v-if="
-                    (currentPage === 'home' && !access_token) ||
-                    (currentPage === 'register' && !access_token)
-                  "
+                  v-if="currentPage !== 'login' && !access_token"
                   >Sign In</RouterLink
                 >
               </li>
@@ -69,10 +66,7 @@ export default {
                 <RouterLink
                   class="nav-link"
                   :to="'/register'"
-                  v-if="
-                    (currentPage === 'home' && !access_token) ||
-                    (currentPage === 'login' && !access_token)
-                  "
+                  v-if="currentPage !== 'register' && !access_token"
                   >Sign Up</RouterLink
                 >
               </li>

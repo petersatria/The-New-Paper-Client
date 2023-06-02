@@ -11,16 +11,16 @@ export default {
   },
   components: { CardLatest },
   computed: {
-    ...mapState(useArticleStore, ['articles']),
-    latestArticle() {
-      return this.articles.slice(0, 3)
-    }
+    ...mapState(useArticleStore, ['articles'])
+    // latestArticle() {
+    //   return this.articles.slice(0, 3)
+    // }
   },
   methods: {
     ...mapActions(useArticleStore, ['fetchArticles'])
   },
   created() {
-    this.fetchArticles(9)
+    this.fetchArticles(3)
   }
 }
 </script>
@@ -42,13 +42,13 @@ export default {
           </div> -->
           <div class="col-12">
             <!-- <CardLatest v-for="item in latestArticle" :key="item.id" :article="item" /> -->
-            <CardLatest :article="latestArticle[2]" />
+            <CardLatest :article="articles[2]" />
           </div>
           <div class="col-6 py-3">
-            <CardLatest :article="latestArticle[1]" />
+            <CardLatest :article="articles[1]" />
           </div>
           <div class="col-6 py-3">
-            <CardLatest :article="latestArticle[0]" />
+            <CardLatest :article="articles[0]" />
           </div>
         </div>
       </div>

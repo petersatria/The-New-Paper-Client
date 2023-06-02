@@ -10,7 +10,16 @@ export default {
       this.$router.push(`/articles/${this.article.id}`)
     },
     bookmarksHandler() {
-      this.addToBookmarks(this.article.id)
+      if (localStorage.access_token) {
+        this.addToBookmarks(this.article.id)
+      } else {
+        this.$router.push('/login')
+      }
+    }
+  },
+  computed: {
+    currentPage() {
+      return this.$route.name
     }
   }
 }
@@ -19,10 +28,12 @@ export default {
 <template>
   <div class="card border-white">
     <div @click="toDetailArticle">
-      <img :src="article.imgUrl" class="card-img" alt="..." height="120" />
+      <img :src="article.imgUrl" class="card-img" alt="..." height="174" />
       <h5 class="card-title pt-2">{{ article.Category.name }}</h5>
       <p class="card-text">{{ article.title }}</p>
     </div>
-    <button @click="bookmarksHandler" class="btn btn-danger">Bookmark</button>
+    <button v-if="currentPage === 'home'" @click="bookmarksHandler" class="btn btn-danger">
+      Bookmark
+    </button>
   </div>
 </template>

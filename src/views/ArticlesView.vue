@@ -8,9 +8,15 @@ export default {
     ...mapState(useArticleStore, ['articles'])
   },
   methods: {
-    ...mapActions(useArticleStore, ['fetchArticles'])
+    ...mapActions(useArticleStore, ['fetchArticles']),
+    pagination() {
+      // console.log('pagination')
+      // this.fetchArticles(9, 2)
+      // console.log(this.articles)
+    }
   },
   created() {
+    console.log(this.articles)
     this.fetchArticles(9)
   }
 }
@@ -37,7 +43,7 @@ export default {
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a @click="pagination" class="page-link" href="#">1</a></li>
                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item">
