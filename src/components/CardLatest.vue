@@ -34,4 +34,10 @@ div {
 h5 {
   font-size: 16px;
 }
+
+.card:hover h5 {
+  margin-bottom: 30px;
+  font-size: 18px;
+  transition: 0.4s;
+}
 </style>

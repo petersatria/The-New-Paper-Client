@@ -6,13 +6,17 @@ import Card from '../components/Card.vue'
 export default {
   components: { Card },
   methods: {
-    ...mapActions(useArticleStore, ['fetchArticleById', 'getQrCode', 'fetchArticles'])
+    ...mapActions(useArticleStore, ['fetchArticleById', 'getQrCode', 'fetchArticles']),
+    articleByIdHandler() {
+      this.fetchArticleById(this.$route.params.id)
+      this.fetchArticles(3)
+    }
   },
   computed: {
     ...mapState(useArticleStore, ['article', 'articleQR', 'articles']),
     formattedDate() {
       const date = new Date(this.article.updatedAt)
-      return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
+      return `${date.getDate()}.${date.getMonth()} ${date.getFullYear()}`
     }
   },
   created() {
@@ -27,7 +31,7 @@ export default {
   <section class="container">
     <div class="row justify-content-center my-2">
       <div class="col-4 text-end">
-        <p>{{ formattedDate }}</p>
+        <p class="date">{{ formattedDate }}</p>
       </div>
       <div class="col-4">{{ article.Category.name }}</div>
     </div>
@@ -50,7 +54,7 @@ export default {
     <div class="row d-flex flex-row justify-content-center text-center">
       <h2>You Might Also Like</h2>
       <div v-for="item in articles" :key="item.id" class="col-12 col-md-4 col-lg-3">
-        <Card :article="item" />
+        <Card :article="item" @click="articleByIdHandler" />
       </div>
       <!-- <div class="col-12 col-md-4 col-lg-3">
         <div class="card border-white">
@@ -67,3 +71,9 @@ export default {
     </div>
   </section>
 </template>
+
+<style scoped>
+.date {
+  color: #bfbfc8;
+}
+</style>

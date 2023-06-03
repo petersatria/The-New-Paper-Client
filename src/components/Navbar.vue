@@ -37,8 +37,8 @@ export default {
           </button>
           <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <RouterLink class="navbar-brand me-auto mb-2 mb-lg-0" :to="'/'"
-              >The New Paper</RouterLink
-            >
+              ><img src="../assets/images/The_New_Paper.svg" height="50" alt=""
+            /></RouterLink>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <RouterLink
@@ -86,3 +86,5 @@ export default {
     </div>
   </section>
 </template>
+
+<style scoped></style>

@@ -6,7 +6,7 @@ import CardLatest from '../components/CardLatest.vue'
 export default {
   data() {
     return {
-      // latestArticle: []
+      latestArticle: []
     }
   },
   components: { CardLatest },
@@ -20,28 +20,18 @@ export default {
     ...mapActions(useArticleStore, ['fetchArticles'])
   },
   created() {
-    this.fetchArticles(3)
+    this.fetchArticles(9, 1)
   }
 }
 </script>
 
 <template>
-  <section class="container">
+  <section class="container mt-4">
     <div class="row">
       <div class="col-12">
         <p>Latest Articles</p>
         <div class="row">
-          <!-- <div class="col-12">
-            <CardLatest />
-          </div>
-          <div class="col-6 py-3">
-            <CardLatest />
-          </div>
-          <div class="col-6 py-3">
-            <CardLatest />
-          </div> -->
           <div class="col-12">
-            <!-- <CardLatest v-for="item in latestArticle" :key="item.id" :article="item" /> -->
             <CardLatest :article="articles[2]" />
           </div>
           <div class="col-6 py-3">
@@ -53,11 +43,16 @@ export default {
         </div>
       </div>
     </div>
+    <div class="line my-5"></div>
   </section>
   <RouterView />
 </template>
 
 <style scoped>
+.line {
+  border-bottom: 1px solid #eaebee;
+}
+
 .sidebar {
   border-radius: 10px;
 }

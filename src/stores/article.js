@@ -7,17 +7,24 @@ export const useArticleStore = defineStore('article', {
     articles: [],
     article: {},
     articleQR: '',
-    latestArticle: []
+    latestArticle: [],
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+    categories: []
   }),
   getters: {
 
   },
   actions: {
-    async fetchArticles(size, page) {
+    async fetchArticles(size, page, filter) {
       try {
         let url = this.baseUrl + `/api/articles?page[size]=${size}`
         if (page) {
-          url = this.baseUrl + `/api/articles?page[size]=${size}8&page[number]=${page}`
+          url = this.baseUrl + `/api/articles?page[size]=${size}&page[number]=${page}`
+        }
+        if (filter) {
+          url = this.baseUrl + `/api/articles?page[size]=${size}&page[number]=${page}&filter[category]=${filter}`
         }
         const { data } = await axios({ url })
         // if (size === 3) {
@@ -25,6 +32,9 @@ export const useArticleStore = defineStore('article', {
         // } else {
         // }
         this.articles = data.data.rows
+        this.currentPage = data.currentPage
+        this.totalItems = data.totalItems
+        this.totalPages = data.totalPages
       } catch (error) {
         console.log(error);
       }
@@ -50,6 +60,16 @@ export const useArticleStore = defineStore('article', {
       } catch (err) {
         console.log(err);
       }
-    }
+    },
+    async fetchCategories() {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + `/api/categories`
+        })
+        this.categories = data.data
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 })
