@@ -13,7 +13,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(useArticleStore, ['article', 'articleQR', 'articles']),
+    ...mapState(useArticleStore, [
+      'article',
+      'articleQR',
+      'articles',
+      'detailCategory',
+      'detailName'
+    ]),
     formattedDate() {
       const date = new Date(this.article.updatedAt)
       return `${date.getDate()}.${date.getMonth()} ${date.getFullYear()}`
@@ -33,7 +39,7 @@ export default {
       <div class="col-4 text-end">
         <p class="date">{{ formattedDate }}</p>
       </div>
-      <div class="col-4">{{ article.Category.name }}</div>
+      <div class="col-4">{{ detailCategory }}</div>
     </div>
     <div class="row">
       <h1>{{ article.title }}</h1>
@@ -44,7 +50,7 @@ export default {
     </div>
     <div class="row">
       <div class="col">
-        <p>Article by {{ article.User.username }}</p>
+        <p>Article by {{ detailName }}</p>
       </div>
       <!-- <div class="col-2" v-html="articleQR"></div> -->
     </div>

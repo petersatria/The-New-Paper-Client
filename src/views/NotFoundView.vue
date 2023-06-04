@@ -1,5 +1,19 @@
 <template>
   <section class="container">
-    <h1>Not Found, {{ $route.fullPath }}</h1>
+    <h2 class="text-center">Page {{ $route.fullPath }} is not found</h2>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <RouterLink :to="'/'">Redirect to Home</RouterLink>
+      <img src="../assets/images/not_found.svg" alt="" />
+    </div>
   </section>
 </template>
+
+<style scoped>
+a {
+  color: #687d82;
+}
+
+a:hover {
+  color: #94a7ab;
+}
+</style>

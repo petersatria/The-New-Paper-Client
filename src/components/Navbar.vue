@@ -2,18 +2,24 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { mapActions, mapState } from 'pinia'
 import { useUserStore } from '../stores/user'
+import { useArticleStore } from '../stores/article'
 
 export default {
   computed: {
     ...mapState(useUserStore, ['access_token']),
+    // ...mapState(useArticleStore, ['filter']),
     currentPage() {
       return this.$route.name
     }
   },
   methods: {
     ...mapActions(useUserStore, ['handleLogout']),
+    ...mapActions(useArticleStore, ['clearFilter']),
     logoutHandler() {
       this.handleLogout()
+    },
+    homeArticlesHandler() {
+      this.clearFilter()
     }
   }
 }
@@ -36,9 +42,9 @@ export default {
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <RouterLink class="navbar-brand me-auto mb-2 mb-lg-0" :to="'/'"
+            <a @click="homeArticlesHandler" class="navbar-brand me-auto mb-2 mb-lg-0"
               ><img src="../assets/images/The_New_Paper.svg" height="50" alt=""
-            /></RouterLink>
+            /></a>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <RouterLink
@@ -87,4 +93,8 @@ export default {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+a {
+  cursor: pointer;
+}
+</style>

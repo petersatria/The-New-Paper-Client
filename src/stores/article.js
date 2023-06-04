@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { errorHandler, toast } from '../helpers/helper'
 
 export const useArticleStore = defineStore('article', {
   state: () => ({
     baseUrl: 'http://localhost:3000',
     articles: [],
     article: {},
+    detailName: '',
+    detailCategory: '',
     articleQR: '',
     latestArticle: [],
     currentPage: 1,
@@ -27,16 +30,12 @@ export const useArticleStore = defineStore('article', {
           url = this.baseUrl + `/api/articles?page[size]=${size}&page[number]=${page}&filter[category]=${filter}`
         }
         const { data } = await axios({ url })
-        // if (size === 3) {
-        //   this.latestArticles = data.data.rows
-        // } else {
-        // }
         this.articles = data.data.rows
         this.currentPage = data.currentPage
         this.totalItems = data.totalItems
         this.totalPages = data.totalPages
       } catch (error) {
-        console.log(error);
+        errorHandler(err)
       }
     },
     async fetchArticleById(id) {
@@ -45,9 +44,10 @@ export const useArticleStore = defineStore('article', {
           url: this.baseUrl + `/api/articles/${id}`
         })
         this.article = data.data
+        this.detailCategory = data.data.Category.name
+        this.detailName = data.data.User.username
       } catch (err) {
-        //route
-        console.log(err);
+        errorHandler(err)
       }
     },
     async getQrCode(id) {
@@ -58,7 +58,7 @@ export const useArticleStore = defineStore('article', {
         })
         this.articleQR = data
       } catch (err) {
-        console.log(err);
+        errorHandler(err)
       }
     },
     async fetchCategories() {
@@ -68,8 +68,12 @@ export const useArticleStore = defineStore('article', {
         })
         this.categories = data.data
       } catch (err) {
-        console.log(err);
+        errorHandler(err)
       }
     },
+    clearFilter() {
+      this.router.replace('/')
+      this.fetchArticles(9, 1)
+    }
   },
 })

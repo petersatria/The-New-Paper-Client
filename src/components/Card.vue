@@ -63,6 +63,7 @@ h4:hover {
   font-weight: 700;
   font-size: 30px;
 }
+
 .img-wrapper {
   overflow: hidden;
   border-radius: 5px;

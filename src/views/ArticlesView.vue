@@ -1,21 +1,25 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useArticleStore } from '../stores/article'
+import { useUserStore } from '../stores/user'
 import Card from '../components/Card.vue'
 export default {
   data() {
     return {
       pageNumber: this.$route.query.page,
       filter: [],
-      tempFilter: this.$route.query.filter
+      tempFilter: this.$route.query.filter,
+      isHome: this.$route.fullPath
     }
   },
   components: { Card },
   computed: {
     ...mapState(useArticleStore, ['articles', 'currentPage', 'totalPages', 'categories'])
+    // ...mapState(useUserStore, ['bookmarks'])
   },
   methods: {
     ...mapActions(useArticleStore, ['fetchArticles', 'fetchCategories']),
+    // ...mapActions(useUserStore, ['fetchBookmarks']),
     pagination(page) {
       if (this.filter?.length > 0) {
         this.$router.push({ query: { page: `${page}`, filter: this.filter } })
@@ -26,8 +30,13 @@ export default {
       }
     },
     filterHandler() {
-      this.$router.push({ query: { page: 1, filter: this.filter } })
-      this.fetchArticles(9, 1, this.filter)
+      if (this.filter.length === 0) {
+        this.$router.replace(`?page=${this.$route.query.page}`)
+        this.fetchArticles(9, this.$route.query.page)
+      } else {
+        this.$router.push({ query: { page: 1, filter: this.filter } })
+        this.fetchArticles(9, 1, this.filter)
+      }
     },
     clearFilter() {
       this.$router.replace('/')
@@ -36,24 +45,19 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query.filter)
-    console.log(this.tempFilter, 'filter not query')
-    console.log(this.pageNumber, 'pagenumber')
     if (this.tempFilter) {
       this.filter = this.$route.query.filter
       this.fetchArticles(9, this.pageNumber || 1, this.tempFilter)
-    } else if (this.filter.length > 0) {
-      this.fetchArticles(9, this.pageNumber || 1, this.filter)
     } else {
       this.fetchArticles(9, this.pageNumber || 1)
     }
     this.fetchCategories()
+    // this.fetchBookmarks()
   }
 }
 </script>
 
 <template>
-  <h1 class="text-center my-5">Articles</h1>
   <section class="container">
     <div class="row">
       <div class="col-3 col-md-4 bg-body-tertiary border-5 d-none d-md-block sidebar">
@@ -78,7 +82,8 @@ export default {
         <button @click="clearFilter" class="btn btn-clear">Clear</button>
       </div>
       <div class="col">
-        <section class="row g-4">
+        <section v-if="articles.length" class="row g-4">
+          <h1 class="text-center">Articles</h1>
           <p class="mb-0">Happy reading ~ The New Paper</p>
           <div v-for="item in articles" :key="item.id" class="col-6 col-md-4">
             <Card :article="item" />
@@ -148,6 +153,10 @@ export default {
             </nav>
           </div>
         </section>
+        <div v-else class="d-flex justify-content-center flex-column align-items-center">
+          <h3>Sorry we couldn't find articles with this category</h3>
+          <img src="../assets/images/no_data.svg" alt="no_data" />
+        </div>
       </div>
     </div>
   </section>
@@ -166,7 +175,7 @@ export default {
 
 button {
   margin: 5px 0;
-  width: 50%;
+  width: 100%;
 }
 
 .btn-clear {

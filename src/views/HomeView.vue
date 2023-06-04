@@ -32,13 +32,13 @@ export default {
         <p>Latest Articles</p>
         <div class="row">
           <div class="col-12">
-            <CardLatest :article="articles[2]" />
+            <!-- <CardLatest :article="articles[2]" /> -->
           </div>
           <div class="col-6 py-3">
-            <CardLatest :article="articles[1]" />
+            <!-- <CardLatest :article="articles[1]" /> -->
           </div>
           <div class="col-6 py-3">
-            <CardLatest :article="articles[0]" />
+            <!-- <CardLatest :article="articles[0]" /> -->
           </div>
         </div>
       </div>
