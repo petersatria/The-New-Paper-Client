@@ -15,11 +15,9 @@ export default {
   components: { Card },
   computed: {
     ...mapState(useArticleStore, ['articles', 'currentPage', 'totalPages', 'categories'])
-    // ...mapState(useUserStore, ['bookmarks'])
   },
   methods: {
     ...mapActions(useArticleStore, ['fetchArticles', 'fetchCategories']),
-    // ...mapActions(useUserStore, ['fetchBookmarks']),
     pagination(page) {
       if (this.filter?.length > 0) {
         this.$router.push({ query: { page: `${page}`, filter: this.filter } })
@@ -52,7 +50,6 @@ export default {
       this.fetchArticles(9, this.pageNumber || 1)
     }
     this.fetchCategories()
-    // this.fetchBookmarks()
   }
 }
 </script>
@@ -60,9 +57,9 @@ export default {
 <template>
   <section class="container">
     <div class="row">
-      <div class="col-3 col-md-4 bg-body-tertiary border-5 d-none d-md-block sidebar">
+      <div class="col-12 col-md-4 bg-body-tertiary border-5 d-md-block sidebar">
         <h4>Categories</h4>
-        <form @submit.prevent="filterHandler">
+        <form @submit.prevent="filterHandler" class="d-flex flex-wrap gap-3 d-md-block">
           <div
             class="form-check my-4 border-bottom border-2"
             v-for="(item, index) in categories"
@@ -81,10 +78,9 @@ export default {
         </form>
         <button @click="clearFilter" class="btn btn-clear">Clear</button>
       </div>
-      <div class="col">
+      <div class="col-12 col-md-8">
         <section v-if="articles.length" class="row g-4">
           <h1 class="text-center">Articles</h1>
-          <p class="mb-0">Happy reading ~ The New Paper</p>
           <div v-for="item in articles" :key="item.id" class="col-6 col-md-4">
             <Card :article="item" />
           </div>
@@ -114,9 +110,6 @@ export default {
                     <span aria-hidden="true">...</span>
                   </a>
                 </li>
-                <!-- <li class="page-item"><a @click="pagination" class="page-link" href="#">1</a></li> -->
-                <!-- <li class="page-item"><a class="page-link" href="#">2</a></li> -->
-                <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
                 <li class="page-item" v-for="index in totalPages" :key="index">
                   <a
                     @click="pagination(index)"
@@ -163,6 +156,12 @@ export default {
 </template>
 
 <style scoped>
+img {
+  max-width: 50vw;
+}
+.sidebar {
+  border-radius: 10px;
+}
 .page-item a {
   color: #333;
   border: none;

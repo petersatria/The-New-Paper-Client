@@ -7,7 +7,6 @@ import { useArticleStore } from '../stores/article'
 export default {
   computed: {
     ...mapState(useUserStore, ['access_token']),
-    // ...mapState(useArticleStore, ['filter']),
     currentPage() {
       return this.$route.name
     }

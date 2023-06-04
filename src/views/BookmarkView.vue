@@ -13,7 +13,6 @@ export default {
     ...mapActions(useUserStore, ['fetchBookmarks'])
   },
   created() {
-    // this.bookmarks.forEach((e) => console.log(e.id))
     this.fetchBookmarks()
   }
 }

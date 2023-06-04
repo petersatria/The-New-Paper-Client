@@ -14,7 +14,8 @@ export const useArticleStore = defineStore('article', {
     currentPage: 1,
     totalItems: 0,
     totalPages: 0,
-    categories: []
+    categories: [],
+    allArticles: []
   }),
   getters: {
 
@@ -29,12 +30,19 @@ export const useArticleStore = defineStore('article', {
         if (filter) {
           url = this.baseUrl + `/api/articles?page[size]=${size}&page[number]=${page}&filter[category]=${filter}`
         }
+        if (!size && !page && !filter) {
+          url = this.baseUrl + `/api/articles`
+        }
         const { data } = await axios({ url })
-        this.articles = data.data.rows
-        this.currentPage = data.currentPage
-        this.totalItems = data.totalItems
-        this.totalPages = data.totalPages
-      } catch (error) {
+        if (!size && !page && !filter) {
+          this.allArticles = data.data.rows
+        } else {
+          this.articles = data.data.rows
+          this.currentPage = data.currentPage
+          this.totalItems = data.totalItems
+          this.totalPages = data.totalPages
+        }
+      } catch (err) {
         errorHandler(err)
       }
     },
@@ -74,6 +82,15 @@ export const useArticleStore = defineStore('article', {
     clearFilter() {
       this.router.replace('/')
       this.fetchArticles(9, 1)
-    }
+    },
+    async fetchAllArticles() {
+      try {
+        let url = this.baseUrl + `/api/articles`
+        const { data } = await axios({ url })
+        this.allArticles = data.data.rows
+      } catch (err) {
+        errorHandler(err)
+      }
+    },
   },
 })
