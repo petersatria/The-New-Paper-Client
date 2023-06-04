@@ -4,7 +4,7 @@ import { errorHandler, toast } from '../helpers/helper'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    baseUrl: 'http://localhost:3000/api',
+    baseUrl: 'https://news-server.petersox.online/api',
     access_token: localStorage.access_token,
     bookmarks: []
   }),

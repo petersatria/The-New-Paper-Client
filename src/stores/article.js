@@ -4,7 +4,7 @@ import { errorHandler, toast } from '../helpers/helper'
 
 export const useArticleStore = defineStore('article', {
   state: () => ({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://news-server.petersox.online',
     articles: [],
     article: {},
     detailName: '',
